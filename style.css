@@ -1,3 +1,15 @@
+a{ 
+  color: white;
+  font-family: sans-serif;
+  border-width: 10px;
+  border-style: solid;
+  border-radius: 4px;
+  margin: 3px;
+  border-color: black;
+  background-color: purple;
+  text-align: left;
+
+}
 body {
   background-color: black;
   text-align: center;
@@ -15,10 +27,16 @@ h2{
   color: white;
   font-family: monospace;
 }
+
+img{
+  border-color: black;
+  border-style: dashed;
+  border-width: 3px;
+}
 a{ 
   color: white;
   font-family: sans-serif;
-  border-width: 2px;
+  border-width: 10px;
   border-style: solid;
   border-radius: 4px;
   margin: 3px;
@@ -26,9 +44,4 @@ a{
   background-color: purple;
   text-align: left;
 
-}
-img{
-  border-color: black;
-  border-style: dashed;
-  border-width: 3px;
 }
