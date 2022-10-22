@@ -1,91 +1,107 @@
 <!DOCTYPE html>
-<html>
-<title>W3.CSS</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<!-- <link rel="stylesheet" href="style.css"> -->
-<body>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | Dragon Born (Unity Edition)</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+  </head>
+  <body>
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas" width=960 height=600></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-warning"> </div>
+      <div id="unity-footer">
+        <div id="unity-webgl-logo"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">Dragon Born (Unity Edition)</div>
+      </div>
+    </div>
+    <script>
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+      var warningBanner = document.querySelector("#unity-warning");
 
-<div class="w3-container">
-  <h2>Draconite Games</h2>
+      // Shows a temporary message banner/ribbon for a few seconds, or
+      // a permanent error message on top of the canvas if type=='error'.
+      // If type=='warning', a yellow highlight color is used.
+      // Modify or remove this function to customize the visually presented
+      // way that non-critical warnings and error messages are presented to the
+      // user.
+      function unityShowBanner(msg, type) {
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        }
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function() {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
 
-  <div class="w3-row">
-    <a href="javascript:void(0)" onclick="openGamesite(event, 'Home');">
-      <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Home</div>
-    </a>
-    <a href="javascript:void(0)" onclick="openGamesite(event, 'Elvish Warrior');">
-      <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Elvish Warrior</div>
-    </a>
-    <a href="javascript:void(0)" onclick="openGamesite(event, 'Space Wars');">
-      <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Space Wars</div>
-    </a>
-    <a href="javascript:void(0)" onclick="openGamesite(event, 'Hero Of Dusk');">
-      <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Hero Of Dusk</div>
-    </a>
-  </div>
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/build attempt 10_22_22.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/build attempt 10_22_22.data.br",
+        frameworkUrl: buildUrl + "/build attempt 10_22_22.framework.js.br",
+        codeUrl: buildUrl + "/build attempt 10_22_22.wasm.br",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "Draconite_Games",
+        productName: "Dragon Born (Unity Edition)",
+        productVersion: "1.0",
+        showBanner: unityShowBanner,
+      };
 
-  <div id="Home" class="w3-container city" style="display:none">
-    <p></p>
-    <img src="DraconiteIcon.png" width="40"></img>
-    <h1>This is a website where I put my games😀😀😀😀</h1>
-    <h2>My Programming Skills</h2>
-    <p>I usually program here, in Code.org</p>
-    <h2>Current Project</h2>
-    <p>I'm working on a project called Dragon Born, a side scroller where you defeat bosses. </p>
-    <img src="DraconiteIcon.png" width="200"></img>
-    <p>My job today is to make it so you know what page the reader is on.</p>
-  </div>
+      // By default Unity keeps WebGL canvas render target size matched with
+      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+      // Set this to false if you want to decouple this synchronization from
+      // happening inside the engine, and you would instead like to size up
+      // the canvas DOM size and WebGL render target sizes yourself.
+      // config.matchWebGLToCanvasSize = false;
 
-  <div id="Elvish Warrior" class="w3-container city" style="display:none">
-    <img src="DraconiteIcon.png" width="40"></img>
-    <h1>Elvish Warrior</h1>
-    <a href="https://studio.code.org/projects/gamelab/K4-p-hHtJrKMSzUEusR6k7HQLBcgEnips0FTa8DZEPo/" target="_blank">Elvish Warrior</a>
-    <p></p>
-    <a href="https://studio.code.org/projects/gamelab/K4-p-hHtJrKMSzUEusR6k7HQLBcgEnips0FTa8DZEPo/" target="_blank">
-        <img src="elvish-Warrior.png">
-    </a>
-    <!-- This is something I'm adding -->
-    <!-- <div><div style="position: relative;"><div id="visualization" class="" data-radium="true"><div id="divGameLab" tabindex="1" touch-action="auto" style="touch-action: none; width: 400px; height: 400px; z-index: 0;"><canvas id="defaultCanvas0" width="400" height="400" style="width: 400px; height: 400px;"></canvas></div><svg id="visualizationOverlay" version="1.1" baseProfile="full" width="400" height="400" viewBox="0 0 400 400" pointer-events="none" style="left: auto; z-index: 0;"></svg></div><div><div style="position: absolute; top: 0px; left: 0px; width: 100%; margin-top: 3px; transition-property: max-height; transition-duration: 1000ms; overflow: hidden; max-height: 26px; white-space: nowrap;"></div><button type="button" style="display: none;">+</button></div></div><div><div id="gameButtons" data-radium="true"><button type="button" id="runButton" class="launch blocklyLaunch" data-radium="true" disabled="" style="display: none;"><div>Run</div><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAkAAAEALAAAAAABAAEAAAICTAEAOw==" class="run26"></button><button type="button" id="resetButton" class="launch blocklyLaunch" data-radium="true" style="display: inline-block;"><div>Reset</div><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAkAAAEALAAAAAABAAEAAAICTAEAOw==" class="reset26"></button> <div id="soft-buttons" style="display: none;"><button type="button" id="leftButton" class="arrow"><img src="/blockly/media/1x1.gif" class="left-btn icon21"></button><button type="button" id="rightButton" class="arrow"><img src="/blockly/media/1x1.gif" class="right-btn icon21"></button><button type="button" id="upButton" class="arrow"><img src="/blockly/media/1x1.gif" class="up-btn icon21"></button><button type="button" id="downButton" class="arrow"><img src="/blockly/media/1x1.gif" class="down-btn icon21"></button></div><div></div></div><div id="gameButtonExtras"></div></div><div id="studio-dpad-container" class=""><div id="studio-dpad"> 
-  <div id="studio-dpad-rim" style="display: inline;"></div>
-  <div id="studio-dpad-cone" style="display: inline;"></div>
-  <button id="studio-dpad-button" style="display: inline;"></button>
-  <button id="studio-space-button" style="display: inline;"></button>
-</div>
-</div><div id="belowVisualization"></div></div>-->
-  </div>
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        container.className = "unity-mobile";
+        // Avoid draining fillrate performance on mobile devices,
+        // and default/override low DPI mode on mobile browsers.
+        config.devicePixelRatio = 1;
+        unityShowBanner('WebGL builds are not supported on mobile devices.');
+      } else {
+        canvas.style.width = "960px";
+        canvas.style.height = "600px";
+      }
+      loadingBar.style.display = "block";
 
-  <div id="Space Wars" class="w3-container city" style="display:none">
-    <img src="DraconiteIcon.png" width="40"></img>
-    <h1>Space Wars</h1>
-    <a href="https://studio.code.org/projects/gamelab/J1eLeMKjclWcjIM0WiRhaABV-r7e-25tKvD_uf9sNNg/">Space Wars</a>
-    <p>A game where you, as a spaceship, fly around and destroy other spaceships in a randomly generated star system</p>
-    <img src="space-wars-.png"></img>
-  </div>
-
-  <div id="Hero Of Dusk" class="w3-container city" style="display:none">
-    <h1>Hero Of Dusk</h1>
-    <a href="https://studio.code.org/projects/gamelab/9qSC9xbVThu0_OV0F-jLovRbmdrW-w7cXYlMlcU8rvg/">Hero of Dusk</a>
-    <p>A game where you are a hero trying to save the world in a 2D sidescroller</p>
-    <img src="hero_of_dusk_shot.png"></img>
-  </div>
-</div>
-
-<script>
-function openGamesite(evt, cityName) {
-  var i, x, tablinks;
-  x = document.getElementsByClassName("city");
-  for (i = 0; i < x.length; i++) {
-    x[i].style.display = "none";
-  }
-  tablinks = document.getElementsByClassName("tablink");
-  for (i = 0; i < x.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" w3-border-red", "");
-  }
-  document.getElementById(cityName).style.display = "block";
-  evt.currentTarget.firstElementChild.className += " w3-border-red";
-}
-</script>
-
-</body>
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          loadingBar.style.display = "none";
+          fullscreenButton.onclick = () => {
+            unityInstance.SetFullscreen(1);
+          };
+        }).catch((message) => {
+          alert(message);
+        });
+      };
+      document.body.appendChild(script);
+    </script>
+  </body>
 </html>
-
